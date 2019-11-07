@@ -34,7 +34,7 @@ function turn(squareId, player) {
     originalBoard[squareId] = player;
     document.getElementById(squareId).innerText = player;
     let gameWon = checkWin(originalBoard, player);
-    if (gameWon) gameOver(gamwWon);
+    if (gameWon) gameOver(gameWon);
 }
 
 function checkWin(board, player) {
@@ -53,4 +53,30 @@ function checkWin(board, player) {
     anything to the accumulator.
     */
     //this is just a way to find every index that the player has played in
+    let gameWon = null;
+    for (let [index, win] of winCombos.entries()) {
+        if (win.every(elem => plays.indexOf(elem) > -1)) {
+            /*if win.every element in that 0, 1, 2, we are gonna check
+            if plays.indexOf elem is greater than -1
+            basically we are asking if the player has played all the 
+            spots available, so he can win (the winCombos array)*/
+            gameWon = {
+                index: index,
+                player: player
+            };
+            break;
+        }
+    }
+    return gameWon;
+}
+
+function gameOver(gameWon) {
+    for (let index of winCombos[gameWon.index]) {
+        //going threw every index of that winCombo
+        document.getElementById(index).style.backgroundColor =
+            gameWon.player == humanPlayer ? "#a0ffcc" : "#ff8981";
+    }
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].removeEventListener('click', turnClick, false);
+    }
 }
