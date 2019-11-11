@@ -16,11 +16,11 @@ startGame();
 
 function startGame() {
     document.querySelector(".endgame").style.display = "none";
-    originalBoard = Array.from(Array(9).keys); //this creates
+    originalBoard = Array.from(Array(9).keys()); //this creates
     //an array of 9 elements, and it assigns values to this array
     //from 0 to 9. ex. Array[0]: 0, Array[1]: 1...
     for (var i = 0; i < cells.length; i++) {
-        cells[i].innerText = "";
+        cells[i].innerText = '';
         cells[i].style.removeProperty('background-color');
         cells[i].addEventListener('click', turnClick, false);
     }
@@ -28,10 +28,8 @@ function startGame() {
 
 function turnClick(square) {
     if (typeof originalBoard[square.target.id] == 'number') {
-        turn(square.target.id, humanPlayer);
-        if (!checkTie()) {
-            turn(bestSpot(), aiPlayer);
-        }
+        turn(square.target.id, humanPlayer)
+        if (!checkTie()) turn(bestSpot(), aiPlayer);
     }
 }
 
@@ -86,11 +84,11 @@ function gameOver(gameWon) {
     for (var i = 0; i < cells.length; i++) {
         cells[i].removeEventListener('click', turnClick, false);
     }
+    declareWinner(gameWon.player == humanPlayer ? "You Win!" : "You Lose.");
 }
 
 function emptySquares() {
     return originalBoard.filter(s => typeof s == 'number');
-
 }
 
 function bestSpot() {
@@ -98,12 +96,12 @@ function bestSpot() {
 }
 
 function checkTie() {
-    if(emptySquares().length == 0) {
-        for(var i = 0; i < cells.length; i++) {
+    if (emptySquares().length == 0) {
+        for (var i = 0; i < cells.length; i++) {
             cells[i].style.backgroundColor = "green";
             cells[i].removeEventListener('click', turnClick, false);
         }
-        declareWinner("Tie Game!");
+        declareWinner("Tie Game!")
         return true;
     }
     return false;
