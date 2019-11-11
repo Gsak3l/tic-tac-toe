@@ -27,14 +27,21 @@ function startGame() {
 }
 
 function turnClick(square) {
-    turn(square.target.id, humanPlayer);
+    if (typeof originalBoard[square.target.id] == 'number') {
+        turn(square.target.id, humanPlayer);
+        if (!checkTie()) {
+            turn(bestSpot(), aiPlayer);
+        }
+    }
 }
 
 function turn(squareId, player) {
     originalBoard[squareId] = player;
     document.getElementById(squareId).innerText = player;
     let gameWon = checkWin(originalBoard, player);
-    if (gameWon) gameOver(gameWon);
+    if (gameWon) {
+        gameOver(gameWon);
+    }
 }
 
 function checkWin(board, player) {
