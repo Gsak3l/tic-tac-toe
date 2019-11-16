@@ -92,7 +92,7 @@ function emptySquares() {
 }
 
 function bestSpot() {
-    return emptySquares()[0];
+    return minimax(originalBoard, aiPlayer).index;
 }
 
 function checkTie() {
@@ -110,4 +110,20 @@ function checkTie() {
 function declareWinner(who) {
     document.querySelector(".endgame").style.display = "block";
     document.querySelector(".endgame .text").innerText = who;
+}
+
+function minimax(newBoard, player) {
+    var availableSpots = emptySquares(newBoard);
+
+    if (checkWin(newBoard, player)) {
+        return {
+            score: -10
+        };
+    } else if (checkWin(newBoard, aiPlayer)) {
+        return {
+            score: 10
+        };
+    } else if(availableSpots.length === 0) {
+        return {score:0};
+    }
 }
