@@ -123,7 +123,24 @@ function minimax(newBoard, player) {
         return {
             score: 10
         };
-    } else if(availableSpots.length === 0) {
-        return {score:0};
+    } else if (availableSpots.length === 0) {
+        return {
+            score: 0
+        };
+    }
+    var moves = [];
+    for (var i = 0; i < availableSpots.length; i++) {
+        var move = {};
+        move.index = newBoard[availableSpots[i]];
+        newBoard[availableSpots[i]] = player;
+        if (player == aiPlayer) {
+            var result = minimax(newBoard, humanPlayer);
+            move.score = result.score;
+        } else {
+            var result = minimax(newBoard, aiPlayer);
+            move.score = result.score;
+        }
+        newBoard[availableSpots[i]] = move.index;
+        moves.push(move);
     }
 }
